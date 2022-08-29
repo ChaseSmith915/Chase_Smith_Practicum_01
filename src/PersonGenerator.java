@@ -1,5 +1,17 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardOpenOption.*;
+
 
 public class PersonGenerator {
     public static void main(String[] args) {
@@ -13,29 +25,52 @@ public class PersonGenerator {
         String lastName = "";
         String title = "";
         int yearOfBirth = 0;
-        int listCounter = 0;
+        String[] record = new String[4];
+
+
 
 
         do {
 
                 ID = SafeInput.getNonZeroLenString(pipe,"What is your ID?");
+                record[0] = ID;
                 firstName = SafeInput.getNonZeroLenString(pipe,"What is your first name?");
+                record[1] = firstName;
                 lastName = SafeInput.getNonZeroLenString(pipe,"What is your last name?");
                 title = SafeInput.getNonZeroLenString(pipe,"What is your title name?");
                 yearOfBirth = SafeInput.getInt(pipe,"What is your year of birth?");
 
-                personList.add(ID + ", " + firstName + ", " + lastName + ", " + title + ", " + yearOfBirth);
-                listCounter++;
 
+                personList.add(ID + ", " + firstName + ", " + lastName + ", " + title + ", " + yearOfBirth);
                 done = SafeInput.getYNConfirm(pipe, "Are you finished? [Y/N]");
 
         }while(!done);
-        for(int cnt = 0; cnt < listCounter; cnt++)
+
+
+        File workDir = new File(System.getProperty("user.dir"));
+        Path file = Paths.get(workDir.getPath() + "\\src\\data.txt");
+
+        try
         {
-            String toPrint = personList.get(cnt);
-            System.out.println(toPrint);
+            OutputStream out = new BufferedOutputStream(Files.newOutputStream(file, CREATE));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+
+            for(String rec : personList)
+            {
+                writer.write(rec, 0, rec.length());
+                writer.newLine();
+            }
+            writer.close();
+            System.out.println("data file written");
 
         }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
     }
-}
+
+    }
+
 
