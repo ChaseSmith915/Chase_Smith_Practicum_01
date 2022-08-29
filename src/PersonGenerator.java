@@ -33,9 +33,7 @@ public class PersonGenerator {
         do {
 
                 ID = SafeInput.getNonZeroLenString(pipe,"What is your ID?");
-                record[0] = ID;
                 firstName = SafeInput.getNonZeroLenString(pipe,"What is your first name?");
-                record[1] = firstName;
                 lastName = SafeInput.getNonZeroLenString(pipe,"What is your last name?");
                 title = SafeInput.getNonZeroLenString(pipe,"What is your title name?");
                 yearOfBirth = SafeInput.getInt(pipe,"What is your year of birth?");
@@ -48,7 +46,7 @@ public class PersonGenerator {
 
 
         File workDir = new File(System.getProperty("user.dir"));
-        Path file = Paths.get(workDir.getPath() + "\\src\\data.txt");
+        Path file = Paths.get(workDir.getPath() + "\\src\\PersonTestData.txt");
 
         try
         {
